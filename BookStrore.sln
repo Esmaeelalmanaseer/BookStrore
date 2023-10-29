@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33801.447
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStrore", "BookStrore\BookStrore.csproj", "{B46680C9-BDF2-4CBD-AC85-B124E3A41A21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B46680C9-BDF2-4CBD-AC85-B124E3A41A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46680C9-BDF2-4CBD-AC85-B124E3A41A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B46680C9-BDF2-4CBD-AC85-B124E3A41A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B46680C9-BDF2-4CBD-AC85-B124E3A41A21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDF8E0C9-26A1-4594-9B2F-FAC9C4A06442}
+	EndGlobalSection
+EndGlobal

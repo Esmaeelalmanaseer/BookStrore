@@ -18,7 +18,6 @@ namespace BookStrore
 {
     public class Startup
     {
-        private readonly IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,13 +28,13 @@ namespace BookStrore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddSingleton<IBookrepos<Author>,AuthorRepo >();
-            services.AddSingleton<IBookrepos<Book>, Bookrepo>();
+            services.AddMvc(options=>options.EnableEndpointRouting=false);
+            services.AddScoped<IBookrepos<Author>, AuthurDBRepo>();
+            services.AddScoped<IBookrepos<Book>, BookDBRepo>();
             services.AddRazorPages();
             services.AddDbContext<BookStoreDBContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("SqlCon"));
+                options.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
             });
 
         }
@@ -54,19 +53,13 @@ namespace BookStrore
                 app.UseHsts();
             }
             app.UseStaticFiles();
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            
-            app.UseRouting();
-
-            app.UseAuthorization();
-            
-
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(route =>
             {
-                
-            });
+                route.MapRoute("default", "{controller=Book}/{action=Index}/{id?}");
+            }
+                 
+            );
+         
         }
     }
 }

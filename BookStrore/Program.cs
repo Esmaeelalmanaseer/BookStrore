@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using BookStrore.Model;
 
 namespace BookStrore
 {
@@ -14,7 +17,18 @@ namespace BookStrore
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var webhost = CreateWebHostBuilder(args).Build();
+            RunMigration(webhost);
+                webhost.Run();
+        }
+
+        private static void RunMigration(IWebHost webhost)
+        {
+            using (var scope=webhost.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<BookStoreDBContext>();
+                db.Database.Migrate();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

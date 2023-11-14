@@ -66,18 +66,22 @@ namespace BookStrore.Controle
                 var authour = auhtorRepo.Find(model.AuthorId);
                 try
                 {
-                    string fileName = string.Empty;
-                    if (model.File != null)
-                    {
-                        //ايجاد مسار الروت
-                        string uploads = Path.Combine(hosting.WebRootPath, "uploade");
-                        //اسم الملف عمل فيه ابلود
-                        fileName = model.File.FileName;
-                        //دمج
-                        string fullpath = Path.Combine(uploads, fileName);
-                        //حفظ الصور
-                        model.File.CopyTo(new FileStream(fullpath, FileMode.Create));
-                    }
+                    #region MyRegion
+
+                    //if (model.File != null)
+                    //{
+                    //    //ايجاد مسار الروت
+                    //    string uploads = Path.Combine(hosting.WebRootPath, "uploade");
+                    //    //اسم الملف عمل فيه ابلود
+                    //    fileName = model.File.FileName;
+                    //    //دمج
+                    //    string fullpath = Path.Combine(uploads, fileName);
+                    //    //حفظ الصور
+                    //    model.File.CopyTo(new FileStream(fullpath, FileMode.Create));
+                    //} 
+                    #endregion
+                    string fileName = upload(model.File)==null?string.Empty:upload(model.File);
+
                     if (model.AuthorId == -1)
                     {
                         ViewBag.Message = "Please select an authur from list!";
@@ -131,29 +135,30 @@ namespace BookStrore.Controle
         {
             try
             {
-                string fileName = string.Empty;
-                if (model.File != null)
-                {
-                    //ايجاد مسار الروت
-                    string uploads = Path.Combine(hosting.WebRootPath, "uploade");
-                    //اسم الملف عمل فيه ابلود
-                    fileName = model.File.FileName;
-                    string fullpath = Path.Combine(uploads, fileName);
-                    //دمج
-                    //Delete image
-                    string oldfileImage = bookrepostory.Find(model.BookId).ImageURL;
-                    string fulloldfile = Path.Combine(uploads, oldfileImage);
-                    if(fullpath!=oldfileImage)
-                    {
-                        System.IO.File.Delete(fulloldfile);
-                        //حفظ الصور
-                        model.File.CopyTo(new FileStream(fullpath, FileMode.Create));
-                    }
+                #region MyRegion
+                ////ايجاد مسار الروت
+                //string uploads = Path.Combine(hosting.WebRootPath, "uploade");
+                ////اسم الملف عمل فيه ابلود
+                //fileName = model.File.FileName;
+                //string fullpath = Path.Combine(uploads, fileName);
+                ////دمج
+                ////Delete image
+                //string oldfileImage = model.ImageURL;
+                //string fulloldfile = Path.Combine(uploads, oldfileImage);
+                //if (fullpath != oldfileImage)
+                //{
+                //    System.IO.File.Delete(fulloldfile);
+                //    //حفظ الصور
+                //    model.File.CopyTo(new FileStream(fullpath, FileMode.Create));
+                //}
+                #endregion
 
-                }
+                string fileName = newupload(model.File,model.ImageURL);
+
                 var authur = auhtorRepo.Find(model.AuthorId);
                 Book book = new Book
                 {
+                     Id=model.BookId,
                     title = model.Title,
                     Decription = model.Discription,
                     Author = authur,
@@ -172,7 +177,7 @@ namespace BookStrore.Controle
         public ActionResult Delete(int id)
         {
             var book = bookrepostory.Find(id);
-            return View();
+            return View(book);
         }
 
         // POST: BookController/Delete/5
@@ -190,6 +195,11 @@ namespace BookStrore.Controle
                 return View();
             }
         }
+        public ActionResult Serch(string trem)
+        {
+            var serch= bookrepostory.Serch(trem);
+            return View("Index", serch);
+        }
         List<Author> fillAuthur()
         {
             var authurs = auhtorRepo.List().ToList();
@@ -203,6 +213,37 @@ namespace BookStrore.Controle
                 Authors = fillAuthur()
             };
             return lmoder;
+        }
+        string upload(IFormFile file)
+        {
+            if (file != null)
+            {
+                //ايجاد مسار الروت
+                string uploads = Path.Combine(hosting.WebRootPath, "uploade");
+                //اسم الملف عمل فيه ابلود
+                //دمج
+                string fullpath = Path.Combine(uploads, file.FileName);
+                //حفظ الصور
+                file.CopyTo(new FileStream(fullpath, FileMode.Create));
+                return file.FileName;
+            }
+            return null;
+        }
+        string newupload(IFormFile file,string imgurl)
+        {
+            if (file != null)
+            {
+                string uploads = Path.Combine(hosting.WebRootPath, "uploade");
+                string newpath = Path.Combine(uploads, file.FileName);
+                string fulloldfile = Path.Combine(uploads, imgurl);
+                if (newpath != fulloldfile)
+                {
+                    System.IO.File.Delete(fulloldfile);
+                    file.CopyTo(new FileStream(newpath, FileMode.Create));
+                }
+                return file.FileName;
+            }
+            return imgurl;
         }
         
     }

@@ -53,13 +53,9 @@ namespace BookStrore
                 app.UseHsts();
             }
             app.UseStaticFiles();
-            app.UseMvc(route =>
-            {
+            app.UseMvc(route => {
                 route.MapRoute("default", "{controller=Book}/{action=Index}/{id?}");
-            }
-                 
-            );
-         
+            });
         }
     }
 }

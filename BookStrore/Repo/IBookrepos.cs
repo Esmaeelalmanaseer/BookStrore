@@ -12,5 +12,6 @@ namespace BookStrore.Repo
         void Add(TEntity entity);
         void Update(int id,TEntity entity);
         void Delete(int id);
+        List<TEntity> Serch(string trem);
     }
 }

@@ -47,6 +47,12 @@ namespace BookStrore.Repo
             return Books;
         }
 
+        public List<Book> Serch(string trem)
+        {
+            var result = Books.Where(a => a.Author.FullName.Contains(trem) || a.title.Contains(trem) || a.Decription.Contains(trem)).ToList();
+            return result;
+        }
+
         public void Update(int id,Book newBook)
         {
             var book = Find(id);

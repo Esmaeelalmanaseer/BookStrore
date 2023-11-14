@@ -1,4 +1,5 @@
 ﻿using BookStrore.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,12 @@ namespace BookStrore.Repo
         public IList<Author> List()
         {
             return _DB.Authors.ToList();
+        }
+
+        public List<Author> Serch(string trem)
+        {
+            var result = _DB.Authors.Where(a => a.FullName.Contains(trem)).ToList();
+            return result;
         }
 
         public void Update(int id, Author newAuthor)

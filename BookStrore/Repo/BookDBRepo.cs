@@ -47,6 +47,13 @@ namespace BookStrore.Repo
             _DB.Books.Update(newBook);
             _DB.SaveChanges();
         }
+        public List<Book> Serch(string trem)
+        {
+            var result = _DB.Books.Include(a => a.Author).Where(b => b.title.Contains(trem)
+            || b.Decription.Contains(trem)
+            || b.Author.FullName.Contains(trem)).ToList();
+            return result;
+        }
      
     }
     
